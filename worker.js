@@ -10,6 +10,7 @@ export default {
         const corsHeaders = {
             "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
+            "Access-Control-Allow-Origin": "*"
         };
 
         //adds helpful query perameter help
@@ -24,15 +25,17 @@ export default {
         }
 
         function GetURL() {
-            return window.location.href
+            return url.href
         }
 
         async function DeleteOldMessages() {
-            let list = await env.GlobalStorage.list();
-            for (const item of list.keys) {
-                if ((Math.floor(new Date().getTime() / 1000) - await env.GlobalStorage.get(item.name) >= 10)) {
+            let messages = await env.GlobalStorage.list();
+            for (const item of messages.keys) {
+                let timestamp = item.name;
+                if ((Math.floor(Date.now() / 1000) - timestamp) >= 10) {
                     await env.GlobalStorage.delete(item.name);
                 }
+            }
         }
 
 
@@ -48,13 +51,13 @@ export default {
             let messages = await env.GlobalStorage.list();
             messages = messages ? messages : [];
 
-            return new Response(messages, {status: 200, headers: corsHeaders});
+            return new Response(JSON.stringify(messages), {status: 200, headers: corsHeaders});
         }
 
         if (url.pathname === "/send-message" && request.method === "POST") {
             let packet = await request.json();
 
-            await env.GlobalStorage.put(Math.floor(new Date().getTime() / 1000), packet)
+            await env.GlobalStorage.put(Math.floor(new Date().getTime() / 1000), JSON.stringify(packet))
 
             await DeleteOldMessages()
 
@@ -63,7 +66,6 @@ export default {
 
 
         return new Response("Not found", {status: 404, headers: corsHeaders});
-        }
     }
 }
 
