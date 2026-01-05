@@ -51,6 +51,8 @@ export default {
             let messages = await env.GlobalStorage.list();
             messages = messages ? messages : [];
 
+            await DeleteOldMessages()
+
             return new Response(JSON.stringify(messages), {status: 200, headers: corsHeaders});
         }
 
