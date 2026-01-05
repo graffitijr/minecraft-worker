@@ -5,5 +5,5 @@ type = "javascript"          # or "webpack" / "modules" if using modules
 
 # Optional: KV namespace binding
 kv_namespaces = [
-  { binding = "GlobalStorage", id = "5ee5ae413b0e4196a234b2f72ae4e002" }
+  { binding = "GlobalStorage", id = "f76a5e6aac6f4d9e9895f01386b78473" }
 ]
