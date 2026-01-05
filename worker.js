@@ -56,6 +56,8 @@ export default {
                 if (msg) messages.push(JSON.parse(msg));  // KV stores strings, so parse JSON
             }
 
+            await DeleteOldMessages()
+
             return new Response(JSON.stringify(messages), {status: 200, headers: corsHeaders});
         }
 
