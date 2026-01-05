@@ -32,7 +32,7 @@ export default {
             let messages = await env.GlobalStorage.list();
             for (const item of messages.keys) {
                 let timestamp = item.name;
-                if ((Math.floor(Date.now() / 1000) - timestamp) >= 10) {
+                if ((Math.floor(Date.now() / 1000) - timestamp) >= 45) {
                     await env.GlobalStorage.delete(item.name);
                 }
             }
