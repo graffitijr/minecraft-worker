@@ -48,13 +48,23 @@ export default {
         //examples at end of code
 
         if (url.pathname === "/get-messages" && request.method === "GET") {
-            let messages = await env.GlobalStorage.list();
-            messages = messages ? messages : [];
+            let list = await env.GlobalStorage.list();
+            let messages = [];
 
-            await DeleteOldMessages()
+            for (const item of list.keys) {
+                let msg = await env.GlobalStorage.get(item.name);
+                if (msg) messages.push([item.name, JSON.parse(msg)]);  // KV stores strings, so parse JSON
+            }
 
-            return new Response(JSON.stringify(messages), {status: 200, headers: corsHeaders});
+            return new Response(JSON.stringify(messages), {
+                status: 200,
+                headers: {
+                    ...corsHeaders,
+                    "Content-Type": "application/json"
+                }
+            });
         }
+
 
         if (url.pathname === "/send-message" && request.method === "POST") {
             let packet = await request.json();
