@@ -9,7 +9,7 @@ export default {
         // Simple CORS headers so your frontend (Pages or other) can call this worker freely.
         const corsHeaders = {
             "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type"
+            "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*"
         };
 
