@@ -53,16 +53,10 @@ export default {
 
             for (const item of list.keys) {
                 let msg = await env.GlobalStorage.get(item.name);
-                if (msg) messages.push([item.name, JSON.parse(msg)]);  // KV stores strings, so parse JSON
+                if (msg) messages.push(JSON.parse(msg));  // KV stores strings, so parse JSON
             }
 
-            return new Response(JSON.stringify(messages), {
-                status: 200,
-                headers: {
-                    ...corsHeaders,
-                    "Content-Type": "application/json"
-                }
-            });
+            return new Response(JSON.stringify(messages), {status: 200, headers: corsHeaders});
         }
 
 
